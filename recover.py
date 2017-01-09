@@ -28,8 +28,10 @@ def check_paper():
     not_found_in_db_flag = False
     for paper_file_name in paper_in_file_names:
         if paper_file_name.split(".")[0].decode('utf-8') not in paper_in_dbs_names:
-            print paper_file_name.split(".")[0], "not found in db"
-            not_found_in_db_flag = True
+            paper_name = paper_file_name.split(".")[0]
+            if paper_name:
+                print , "not found in db"
+                not_found_in_db_flag = True
 
     if not not_found_in_db_flag:
         print "all papers in files are found in database"
