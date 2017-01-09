@@ -42,6 +42,8 @@ def recover():
     paper_in_file_names = os.listdir("./11-5/")
     for paper_file_name in paper_in_file_names:
         paper_name = paper_file_name.split(".")[0].decode('utf-8')
+        if paper_name == "":
+            continue
 
         conn = connect_mongodb()
         paper_collections = conn['GeoPaper']['ChoiceData']
