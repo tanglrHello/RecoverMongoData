@@ -46,10 +46,77 @@ def recover():
         paper_collections = conn['GeoPaper']['ChoiceData']
         paper_doc = paper_collections.find({'testpaperName': paper_name})
 
-        if not paper_doc:
-            print "can't find", paper_name
-        else:
-            print "found", paper_name
+        file = open(paper_file_name)
+
+        combined_choice_index = 0
+        for line in file.readlines():
+            fields = line.split("!@#")
+
+            number = fields[get_col_index("number")].split("-")
+            timian_number = int(number[0])
+            choice_number = number[1]
+
+            if choice_number == 'A':
+                combined_choice_index = 0
+            else:
+                combined_choice_index += 1
+
+            question = paper_doc['Questions'][timian_number-1]
+            combined_choice = question['combinedTexts'][combined_choice_index]
+
+            # set fields to document
+            fields = ['segres', 'segres_fg', 'posres', 'goldtimes', 'goldlocs', 'goldterms', 'goldquants',
+                      'topTemplate', 'topTemplateTypes', 'topTemplateCueword',
+                      'secondTemplate', 'secondTemplateTypes', 'secondTemplateCueword',
+                      'choiceQuestionSentence', 'choice_type', 'qiandao_type', 'core_type', 'core_verb',
+                      'delete_part', 'context']
+
+            for field in fields:
+                combined_choice[field] = fields[get_col_index(field)]
+
+        paper_collections.save(paper_doc)
+
+
+def get_col_index(field_name):
+    csv_col_names = ['number',
+                     'text',
+                     'splitinfo',
+                     'segres',
+                     'segres_fg',
+                     'auto_seg',
+                     'auto_seg_fg',
+                     'posres',
+                     'auto_pos',
+                     'goldtimes',
+                     'auto_time',
+                     'goldlocs',
+                     'goldterms',
+                     'auto_loc',
+                     'goldquants',
+                     'bpres',
+                     'auto_bpres',
+                     'topTemplate',
+                     'topTemplateTypes',
+                     'topTemplateCueword',
+                     'secondTemplate',
+                     'secondTemplateTypes',
+                     'secondTemplateCueword',
+                     'choiceQuestionSentence',
+                     'auto_topTemplate',
+                     'auto_secondTemplate',
+                     'auto_topTemplateCueword',
+                     'auto_choiceQuestionSentence',
+                     'auto_secondTemplateCueword',
+                     'auto_topTemplateTypes',
+                     'auto_secondTemplateTypes',
+                     'choice_type',
+                     'qiandao_type',
+                     'core_type',
+                     'core_verb',
+                     'delete_part',
+                     'context']
+
+    return csv_col_names.index(field_name)
 
 
 check_paper()
