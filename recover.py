@@ -58,7 +58,7 @@ def recover():
             timian_number = int(number[0])
             choice_number = '-'.join(number[1:])
 
-            if choice_number == 'A' or choice_number == u'①':
+            if choice_number == 'A' or choice_number.decode('utf-8') == u'①':
                 combined_choice_index = 0
             else:
                 combined_choice_index += 1
