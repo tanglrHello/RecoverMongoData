@@ -22,16 +22,33 @@ def check_paper():
 
     paper_in_dbs_names = []
 
-
     for paper in paper_in_dbs:
         paper_in_dbs_names.append(paper['testpaperName'])
-        print paper['testpaperName']
 
-    print "&****"
-
+    not_found_in_db_flag = False
     for paper_file_name in paper_in_file_names:
-        if paper_file_name.split(".")[0] not in paper_in_dbs_names:
-            print paper_file_name.split(".")[0]
+        if paper_file_name.split(".")[0].decode('utf-8cd') not in paper_in_dbs_names:
+            print paper_file_name.split(".")[0], "not found in db"
+            not_found_in_db_flag = True
+
+    if not not_found_in_db_flag:
+        print "all papers in files are found in database"
+
+
+def recover():
+    paper_in_file_names = os.listdir("./11-5/")
+    for paper_file_name in paper_in_file_names:
+        paper_name = paper_file_name.split(".")[0].decode('utf-8')
+
+        conn = connect_mongodb()
+        paper_collections = conn['GeoPaper']['ChoiceData']
+        paper_doc = paper_collections.find({'testpaperName': paper_name})
+
+        if not paper_doc:
+            print "can't find", paper_name
+        else:
+            print "found", paper_name
+
 
 check_paper()
-
+recover()
