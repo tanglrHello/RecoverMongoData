@@ -25,10 +25,13 @@ def check_paper():
 
     for paper in paper_in_dbs:
         paper_in_dbs_names.append(paper['testpaperName'])
+        print paper['testpaperName']
+
+    print "&****"
 
     for paper_file_name in paper_in_file_names:
         if paper_file_name.split(".")[0] not in paper_in_dbs_names:
-            print paper_file_name
+            print paper_file_name.split(".")[0]
 
 check_paper()
 
