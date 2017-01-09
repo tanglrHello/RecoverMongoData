@@ -44,7 +44,7 @@ def recover():
 
         conn = connect_mongodb()
         paper_collections = conn['GeoPaper']['ChoiceData']
-        paper_doc = paper_collections.find({'testpaperName': paper_name})
+        paper_doc = paper_collections.find({'testpaperName': paper_name})[0]
 
         file = open("./11-5/" + paper_file_name)
 
@@ -55,7 +55,7 @@ def recover():
 
             number = fields[get_col_index("number")].split("-")
             timian_number = int(number[0])
-            choice_number = number[1]
+            choice_number = '-'.join(number[1:])
 
             if choice_number == 'A':
                 combined_choice_index = 0
