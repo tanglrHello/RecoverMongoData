@@ -49,6 +49,7 @@ def recover():
         file = open("./11-5/" + paper_file_name)
 
         combined_choice_index = 0
+        file.readline()
         for line in file.readlines():
             fields = line.split("!@#")
 
