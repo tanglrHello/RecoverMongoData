@@ -51,9 +51,9 @@ def recover():
         combined_choice_index = 0
         file.readline()
         for line in file.readlines():
-            fields = line.split("!@#")
+            content_fields = line.split("!@#")
 
-            number = fields[get_col_index("number")].split("-")
+            number = content_fields[get_col_index("number")].split("-")
             timian_number = int(number[0])
             choice_number = '-'.join(number[1:])
 
@@ -66,20 +66,14 @@ def recover():
             combined_choice = question['combinedTexts'][combined_choice_index]
 
             # set fields to document
-            fields = ['segres', 'segres_fg', 'posres', 'goldtimes', 'goldlocs', 'goldterms', 'goldquants',
+            changed_fields = ['segres', 'segres_fg', 'posres', 'goldtimes', 'goldlocs', 'goldterms', 'goldquants',
                       'topTemplate', 'topTemplateTypes', 'topTemplateCueword',
                       'secondTemplate', 'secondTemplateTypes', 'secondTemplateCueword',
                       'choiceQuestionSentence', 'choice_type', 'qiandao_type', 'core_type', 'core_verb',
                       'delete_part', 'context']
 
-            for field in fields:
-                try:
-                    combined_choice[field] = fields[get_col_index(field)]
-                except:
-                    print field, len(fields), get_col_index(field)
-                    print paper_name
-                    print line
-                    raise Exception("stop")
+            for field in changed_fields:
+                combined_choice[field] = content_fields[get_col_index(field)]
 
         paper_collections.save(paper_doc)
 
