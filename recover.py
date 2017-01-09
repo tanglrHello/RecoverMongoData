@@ -73,7 +73,10 @@ def recover():
                       'delete_part', 'context']
 
             for field in fields:
-                combined_choice[field] = fields[get_col_index(field)]
+                try:
+                    combined_choice[field] = fields[get_col_index(field)]
+                except:
+                    print field, len(fields), get_col_index(field)
 
         paper_collections.save(paper_doc)
 
