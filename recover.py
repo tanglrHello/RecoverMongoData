@@ -46,7 +46,7 @@ def recover():
         paper_collections = conn['GeoPaper']['ChoiceData']
         paper_doc = paper_collections.find({'testpaperName': paper_name})
 
-        file = open(paper_file_name)
+        file = open("./11-5/" + paper_file_name)
 
         combined_choice_index = 0
         for line in file.readlines():
