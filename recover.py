@@ -77,6 +77,9 @@ def recover():
                     combined_choice[field] = fields[get_col_index(field)]
                 except:
                     print field, len(fields), get_col_index(field)
+                    print paper_name
+                    print line
+                    raise Exception("stop")
 
         paper_collections.save(paper_doc)
 
