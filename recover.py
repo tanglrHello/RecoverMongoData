@@ -1,3 +1,4 @@
+#coding=utf-8
 import os
 import pymongo
 
@@ -57,7 +58,7 @@ def recover():
             timian_number = int(number[0])
             choice_number = '-'.join(number[1:])
 
-            if choice_number == 'A':
+            if choice_number == 'A' or choice_number == u'①':
                 combined_choice_index = 0
             else:
                 combined_choice_index += 1
