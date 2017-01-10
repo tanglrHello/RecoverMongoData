@@ -90,7 +90,6 @@ def recover():
         checkGlobalTagQuestionInfoState(paper_name)
 
         print "finish recovering for:", paper_name
-        paper_collections.save(paper_doc)
 
 def checkBackgroundState(papername):
     # 连接数据库
