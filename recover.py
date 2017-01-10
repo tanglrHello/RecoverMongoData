@@ -77,6 +77,7 @@ def recover():
 
             for field in changed_fields:
                 combined_choice[field] = content_fields[get_col_index(field)]
+        paper_collections.save(paper_doc)
 
         # set tag states
         must_complete_states = ['seg', 'pos', 'time', 'loc', 'term', 'quant',
@@ -103,9 +104,8 @@ def checkBackgroundState(papername):
     background_state = False
     for question in paperInfo['Questions']:
         for ctext in question[textFieldName]:
-            if 'delete_part' in ctext:
+            if ctext['delete_part'] != "" or ctext['context'] != "":
                 background_state = True
-            break
 
     paperInfo['States']['background'] = background_state
     dataCollection.save(paperInfo)
@@ -123,7 +123,7 @@ def checkGlobalTagQuestionInfoState(papername):
     question_info_state = True
     for question in paperInfo['Questions']:
         for ctext in question[textFieldName]:
-            if 'choice_type' not in ctext or ctext['choice_type'] == "":
+            if ctext['choice_type'] == "":
                 question_info_state = False
 
     paperInfo['States']['questionInfo'] = question_info_state
