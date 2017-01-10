@@ -81,9 +81,14 @@ def recover():
 
         # set tag states
         must_complete_states = ['seg', 'pos', 'time', 'loc', 'term', 'quant',
-                                'topTemplate', 'secondTemplate']
+                                'newTemplate']
         for state in must_complete_states:
             paper_doc['States'][state] = True
+
+        if 'topTemplate' in paper_doc['States']:
+            del paper_doc['States']['topTemplate']
+        if 'secondTemplate' in paper_doc['States']:
+            del paper_doc['States']['secondTemplate']
 
         # may_complete_states = ['background', 'questionInfo']
         checkBackgroundState(paper_name)
