@@ -183,5 +183,21 @@ def get_col_index(field_name):
     return csv_col_names.index(field_name)
 
 
+def delete_useless_files():
+    test_paper_file_path = "/root/Documents/GeoTagger/TestPaperData/ChoiceData/"
+    filenames = os.listdir(test_paper_file_path)
+    mongo_connection = connect_mongodb()
+
+    for fname in filenames:
+        paper_name = fname.split(".")[0].decode('utf-8')
+        paper_in_dbs = mongo_connection['GeoPaper']['ChoiceData'].find_one({'testpaperName': paper_name})
+        print paper_name
+        if not paper_in_dbs:
+            print "not exists in db"
+            #os.remove(test_paper_file_path + fname)
+        else:
+            print "existing in db"
+
+
 check_paper()
 recover()
