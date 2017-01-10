@@ -194,10 +194,12 @@ def delete_useless_files():
         print paper_name
         if not paper_in_dbs:
             print "not exists in db"
-            #os.remove(test_paper_file_path + fname)
+            os.remove(test_paper_file_path + fname)
+            "remove done"
         else:
             print "existing in db"
 
 
-check_paper()
-recover()
+#check_paper()
+#recover()
+delete_useless_files()
