@@ -88,6 +88,7 @@ def recover():
             checkBackgroundState(paper_name)
             checkGlobalTagQuestionInfoState(paper_name)
 
+        print "finish recovering for:", paper_name
         paper_collections.save(paper_doc)
 
 def checkBackgroundState(papername):
