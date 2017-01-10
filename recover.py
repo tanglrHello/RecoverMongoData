@@ -78,15 +78,15 @@ def recover():
             for field in changed_fields:
                 combined_choice[field] = content_fields[get_col_index(field)]
 
-            # set tag states
-            must_complete_states = ['seg', 'pos', 'time', 'loc', 'term', 'quant',
-                                    'topTemplate', 'secondTemplate']
-            for state in must_complete_states:
-                paper_doc['States'][state] = True
+        # set tag states
+        must_complete_states = ['seg', 'pos', 'time', 'loc', 'term', 'quant',
+                                'topTemplate', 'secondTemplate']
+        for state in must_complete_states:
+            paper_doc['States'][state] = True
 
-            # may_complete_states = ['background', 'questionInfo']
-            checkBackgroundState(paper_name)
-            checkGlobalTagQuestionInfoState(paper_name)
+        # may_complete_states = ['background', 'questionInfo']
+        checkBackgroundState(paper_name)
+        checkGlobalTagQuestionInfoState(paper_name)
 
         print "finish recovering for:", paper_name
         paper_collections.save(paper_doc)
