@@ -77,7 +77,6 @@ def recover():
 
             for field in changed_fields:
                 combined_choice[field] = content_fields[get_col_index(field)]
-        paper_collections.save(paper_doc)
 
         # set tag states
         must_complete_states = ['seg', 'pos', 'time', 'loc', 'term', 'quant',
@@ -89,6 +88,7 @@ def recover():
             del paper_doc['States']['topTemplate']
         if 'secondTemplate' in paper_doc['States']:
             del paper_doc['States']['secondTemplate']
+        paper_collections.save(paper_doc)
 
         # may_complete_states = ['background', 'questionInfo']
         checkBackgroundState(paper_name)
