@@ -70,15 +70,63 @@ def recover():
 
             # set fields to document
             changed_fields = ['segres', 'segres_fg', 'posres', 'goldtimes', 'goldlocs', 'goldterms', 'goldquants',
-                      'topTemplate', 'topTemplateTypes', 'topTemplateCueword',
-                      'secondTemplate', 'secondTemplateTypes', 'secondTemplateCueword',
-                      'choiceQuestionSentence', 'choice_type', 'qiandao_type', 'core_type', 'core_verb',
-                      'delete_part', 'context']
+                              'topTemplate', 'topTemplateTypes', 'topTemplateCueword',
+                              'secondTemplate', 'secondTemplateTypes', 'secondTemplateCueword',
+                              'choiceQuestionSentence', 'choice_type', 'qiandao_type', 'core_type', 'core_verb',
+                              'delete_part', 'context']
 
             for field in changed_fields:
                 combined_choice[field] = content_fields[get_col_index(field)]
 
+            # set tag states
+            must_complete_states = ['seg', 'pos', 'time', 'loc', 'term', 'quant',
+                                    'topTemplate', 'secondTemplate']
+            for state in must_complete_states:
+                paper_doc['States'][state] = True
+
+            # may_complete_states = ['background', 'questionInfo']
+            checkBackgroundState(paper_name)
+            checkGlobalTagQuestionInfoState(paper_name)
+
         paper_collections.save(paper_doc)
+
+def checkBackgroundState(papername):
+    # 连接数据库
+    conn = connect_mongodb()
+    GeoPaperDB = conn['GeoPaper']
+
+    dataCollection = GeoPaperDB['ChoiceData']
+    textFieldName = "combinedTexts"
+    paperInfo = dataCollection.find_one({'testpaperName': papername})
+
+    background_state = False
+    for question in paperInfo['Questions']:
+        for ctext in question[textFieldName]:
+            if 'delete_part' in ctext:
+                background_state = True
+            break
+
+    paperInfo['States']['background'] = background_state
+    dataCollection.save(paperInfo)
+
+
+def checkGlobalTagQuestionInfoState(papername):
+    # 连接数据库
+    conn = connect_mongodb()
+    GeoPaperDB = conn['GeoPaper']
+
+    dataCollection = GeoPaperDB['ChoiceData']
+    textFieldName = "combinedTexts"
+    paperInfo = dataCollection.find_one({'testpaperName': papername})
+
+    question_info_state = True
+    for question in paperInfo['Questions']:
+        for ctext in question[textFieldName]:
+            if 'choice_type' not in ctext or ctext['choice_type'] == "":
+                question_info_state = False
+
+    paperInfo['States']['questionInfo'] = question_info_state
+    dataCollection.save(paperInfo)
 
 
 def get_col_index(field_name):
