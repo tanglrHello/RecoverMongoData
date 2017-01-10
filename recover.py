@@ -107,6 +107,9 @@ def checkBackgroundState(papername):
             if ctext['delete_part'] != "" or ctext['context'] != "":
                 background_state = True
 
+    if background_state:
+        print 'background tagged'
+
     paperInfo['States']['background'] = background_state
     dataCollection.save(paperInfo)
 
@@ -125,6 +128,9 @@ def checkGlobalTagQuestionInfoState(papername):
         for ctext in question[textFieldName]:
             if ctext['choice_type'] == "":
                 question_info_state = False
+
+    if question_info_state:
+        print "questionInfo tagged"
 
     paperInfo['States']['questionInfo'] = question_info_state
     dataCollection.save(paperInfo)
