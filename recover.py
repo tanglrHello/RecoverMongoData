@@ -112,6 +112,7 @@ def checkBackgroundState(papername):
 
     paperInfo['States']['background'] = background_state
     dataCollection.save(paperInfo)
+    print "save state to database"
 
 
 def checkGlobalTagQuestionInfoState(papername):
