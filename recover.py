@@ -69,13 +69,16 @@ def recover():
             combined_choice = question['combinedTexts'][combined_choice_index]
 
             # set fields to document
-            changed_fields = ['segres', 'segres_fg', 'posres', 'goldtimes', 'goldlocs', 'goldterms', 'goldquants',
-                              'topTemplate', 'topTemplateTypes', 'topTemplateCueword',
-                              'secondTemplate', 'secondTemplateTypes', 'secondTemplateCueword',
-                              'choiceQuestionSentence', 'choice_type', 'qiandao_type', 'core_type', 'core_verb',
+            list_fields = ['segres', 'segres_fg', 'posres', 'topTemplateTypes', 'topTemplateCueword',
+                           'secondTemplateTypes', 'secondTemplateCueword',]
+            string_fields = ['goldtimes', 'goldlocs', 'goldterms', 'goldquants',
+                              'topTemplate', 'secondTemplate', 'choiceQuestionSentence',
+                              'choice_type', 'qiandao_type', 'core_type', 'core_verb',
                               'delete_part', 'context']
+            for field in list_fields:
+                combined_choice[field] = content_fields[get_col_index(field)].split()
 
-            for field in changed_fields:
+            for field in string_fields:
                 combined_choice[field] = content_fields[get_col_index(field)]
 
         # set tag states
